@@ -2,8 +2,8 @@ package model.enums;
 
 public enum Priority {
 	
-	BAIXA,
-	MEDIA,
-	ALTA;
+	LOW,
+	MEDIUM,
+	HIGH;
 
 }

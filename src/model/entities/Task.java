@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import model.enums.Priority;
+import model.enums.Status;
 
 public class Task implements Comparable<Task> {
 	
@@ -13,12 +14,14 @@ public class Task implements Comparable<Task> {
 	private String title;
 	private String description;
 	private Priority priority;
+	private Status status;
 	private LocalDate createdAt;
 	
-	public Task(String title, String description, Priority priority, LocalDate createdAt) {
+	public Task(String title, String description, Priority priority, Status status, LocalDate createdAt) {
 		this.title = title;
 		this.description = description;
 		this.priority = priority;
+		this.status = status;
 		this.createdAt = createdAt;
 	}
 
@@ -44,6 +47,14 @@ public class Task implements Comparable<Task> {
 
 	public void setPriority(Priority priority) {
 		this.priority = priority;
+	}
+	
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public LocalDate getCreatedAt() {
@@ -78,6 +89,7 @@ public class Task implements Comparable<Task> {
 		sb.append("Título: " + title + "\n");
 		sb.append("Descrição: " + description + "\n");
 		sb.append("Prioridade: " + priority.name().toLowerCase() + "\n");
+		sb.append("Status: " + status.name().toLowerCase() + "\n");
 		sb.append("Criado em: " + createdAt.format(formatter) + "\n");
 		return sb.toString();
 	}

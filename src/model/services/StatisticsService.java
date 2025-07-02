@@ -14,6 +14,8 @@ public interface StatisticsService {
 	
 	void quantityPerPriority();
 	
+	void quantityPerStatus();
+	
 	void mostRecentTask();
 	
 	void oldestTask();
