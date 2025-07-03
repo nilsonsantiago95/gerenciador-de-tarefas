@@ -1,9 +1,13 @@
 package model.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 import model.entities.Task;
+import model.enums.Priority;
+import model.enums.Status;
 
 public class TaskService implements TaskDisplay, StatisticsService {
 	
@@ -11,6 +15,21 @@ public class TaskService implements TaskDisplay, StatisticsService {
 	
 	public TaskService(List<Task> tasks) {
 		this.tasks = tasks;
+	}
+	
+	public Task registerTask(Scanner sc)  throws IllegalArgumentException {
+		
+		System.out.print("Título da tarefa: ");
+		String title = sc.nextLine();
+		
+		System.out.print("Descrição da tarefa: ");
+		String description = sc.nextLine();
+		
+		System.out.print("Nível de prioridade da tarefa [baixo | medio | alto]: ");
+		Priority priority = Priority.valueOf(sc.nextLine().toUpperCase());
+		
+		return new Task(title, description, priority, LocalDateTime.now());
+		
 	}
 	
 	public void addTask(Task task) {
@@ -27,6 +46,11 @@ public class TaskService implements TaskDisplay, StatisticsService {
 		return tasks.stream().filter(t -> t.getTitle().equalsIgnoreCase(title)).findFirst();
 		
 	}
+ 	
+ 	public void markTaskAsComplete(String title) {
+ 		Optional<Task> result = searchTask(title);
+ 		result.ifPresentOrElse(task -> task.setStatus(Status.COMPLETED), () -> System.out.println("Essa tarefa não existe na lista"));
+ 	}
 
 	public List<Task> getTasks() {
 		return tasks;
@@ -47,13 +71,13 @@ public class TaskService implements TaskDisplay, StatisticsService {
 	@Override
 	public void quantityPerPriority() {
 		
-		int lowPriorityQuantity = getQuantityPriority("LOW");
-		int mediumPriorityQuantity = getQuantityPriority("MEDIUM");
-		int highPriorityQuantity = getQuantityPriority("HIGH");
+		int lowPriorityQuantity = getQuantityPriority("BAIXO");
+		int mediumPriorityQuantity = getQuantityPriority("MEDIO");
+		int highPriorityQuantity = getQuantityPriority("ALTO");
 		
 		System.out.println("Quantidade de tarefas de baixa prioridade: " + lowPriorityQuantity);
 		System.out.println("Quantidade de tarefas de média prioridade: " + mediumPriorityQuantity);
-		System.out.println("Quantidade de tarefas de alta prioridade: " + highPriorityQuantity);
+		System.out.println("Quantidade de tarefas de alta prioridade: " + highPriorityQuantity + "\n");
 		
 	}
 	
@@ -63,7 +87,7 @@ public class TaskService implements TaskDisplay, StatisticsService {
 		int completedQuantity = getQuantityStatus("COMPLETED");
 		
 		System.out.println("Quantidade de tarefas pendentes: " + pendingQuantity);
-		System.out.println("Quantidade de tarefas concluidas: " + completedQuantity);
+		System.out.println("Quantidade de tarefas concluidas: " + completedQuantity + "\n");
 		
 	}
 	
@@ -77,7 +101,7 @@ public class TaskService implements TaskDisplay, StatisticsService {
 			}
 		}
 		
-		System.out.println("A tarefa mais recente:\n" + mostRecent);
+		System.out.println("A tarefa mais recente:\n" + mostRecent + "\n");
 	
 	}
 

@@ -1,6 +1,6 @@
 package model.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
@@ -9,19 +9,18 @@ import model.enums.Status;
 
 public class Task implements Comparable<Task> {
 	
-	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:MM:ss");
 	
 	private String title;
 	private String description;
 	private Priority priority;
-	private Status status;
-	private LocalDate createdAt;
+	private Status status = Status.PENDING;
+	private final LocalDateTime createdAt;
 	
-	public Task(String title, String description, Priority priority, Status status, LocalDate createdAt) {
+	public Task(String title, String description, Priority priority, LocalDateTime createdAt) {
 		this.title = title;
 		this.description = description;
 		this.priority = priority;
-		this.status = status;
 		this.createdAt = createdAt;
 	}
 
@@ -57,12 +56,8 @@ public class Task implements Comparable<Task> {
 		this.status = status;
 	}
 
-	public LocalDate getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDate createdAt) {
-		this.createdAt = createdAt;
 	}
 
 	@Override
